@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Enum\GenreTypeEnum;
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -28,7 +31,20 @@ class Book
     private ?GenreTypeEnum $genre = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
+    #[Ignore]
     private ?Author $author = null;
+
+    /**
+     * @var Collection<int, Supplier>
+     */
+    #[ORM\ManyToMany(targetEntity: Supplier::class, mappedBy: 'books')]
+    #[Ignore]
+    private Collection $suppliers;
+
+    public function __construct()
+    {
+        $this->suppliers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,6 +107,33 @@ class Book
     public function setAuthor(?Author $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Supplier>
+     */
+    public function getSuppliers(): Collection
+    {
+        return $this->suppliers;
+    }
+
+    public function addSupplier(Supplier $supplier): static
+    {
+        if (!$this->suppliers->contains($supplier)) {
+            $this->suppliers->add($supplier);
+            $supplier->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupplier(Supplier $supplier): static
+    {
+        if ($this->suppliers->removeElement($supplier)) {
+            $supplier->removeBook($this);
+        }
 
         return $this;
     }

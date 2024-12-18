@@ -29,7 +29,7 @@ final class AuthorController extends AbstractController
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() ) {
             $entityManager->persist($author);
             $entityManager->flush();
 
@@ -45,6 +45,8 @@ final class AuthorController extends AbstractController
     #[Route('/{id}', name: 'app_author_show', methods: ['GET'])]
     public function show(Author $author): Response
     {
+
+
         return $this->render('author/show.html.twig', [
             'author' => $author,
         ]);

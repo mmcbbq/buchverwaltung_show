@@ -24,6 +24,9 @@ class AuthorType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Author::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => 'author_token',
+            'csrf_token_id' => 'author_item'
         ]);
     }
 }

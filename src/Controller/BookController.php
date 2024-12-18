@@ -14,6 +14,10 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/book')]
 final class BookController extends AbstractController
 {
+
+
+
+
     #[Route(name: 'app_book_index', methods: ['GET'])]
     public function index(BookRepository $bookRepository): Response
     {
@@ -71,11 +75,22 @@ final class BookController extends AbstractController
     #[Route('/{id}', name: 'app_book_delete', methods: ['POST'])]
     public function delete(Request $request, Book $book, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $book->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($book);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/test/api/', name: 'app_book_api')]
+    public function jsonstring(BookRepository $repository)
+    {
+        $object = $repository->find(704);
+//        dd($object);
+//        $data = ['id'=> 1, 'name'=> 'bob'];
+
+        return $this->json($object);
+    }
+
+
 }

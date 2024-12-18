@@ -23,7 +23,7 @@
                 <td>{{ book.name }}</td>
                 <td>{{ book.pages }}</td>
                 <td>{{ book.publishedAt ? book.publishedAt|date('Y-m-d') : '' }}</td>
-                <td>{{ book.genre }}</td>
+                <td>{{ book.genre.value }}</td>
                 <td>
                     <a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
                     <a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>

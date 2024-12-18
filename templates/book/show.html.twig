@@ -25,7 +25,17 @@
             </tr>
             <tr>
                 <th>Genre</th>
-                <td>{{ book.genre }}</td>
+                <td>{{ book.genre.value }}</td>
+            </tr>
+            <tr>
+                <th>Author</th>
+                <td>{{ book.author.fullName }}</td>
+            </tr>
+            <tr>
+                <th>Lieferant</th>
+                {% for supplier in book.suppliers %}
+                <td>{{ supplier.name }}</td>
+                {% endfor %}
             </tr>
         </tbody>
     </table>
