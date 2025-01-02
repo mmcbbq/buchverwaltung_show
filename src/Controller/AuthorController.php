@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/author')]
 final class AuthorController extends AbstractController
 {
+
+
     #[Route(name: 'app_author_index', methods: ['GET'])]
     public function index(AuthorRepository $authorRepository): Response
     {
