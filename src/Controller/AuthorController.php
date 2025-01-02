@@ -14,8 +14,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/author')]
 final class AuthorController extends AbstractController
 {
-
-
     #[Route(name: 'app_author_index', methods: ['GET'])]
     public function index(AuthorRepository $authorRepository): Response
     {
@@ -40,7 +38,7 @@ final class AuthorController extends AbstractController
 
         return $this->render('author/new.html.twig', [
             'author' => $author,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -68,7 +66,7 @@ final class AuthorController extends AbstractController
 
         return $this->render('author/edit.html.twig', [
             'author' => $author,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
